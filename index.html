@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teman Cerita BK | SMAN 5 Makassar (SMUNEL)</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            500: '#3B82F6',
+                            600: '#2563EB',
+                            700: '#1D4ED8',
+                            800: '#1E40AF',
+                            900: '#1E3A8A',
+                        },
+                        sun: {
+                            50: '#FEFCE8',
+                            100: '#FEF9C3',
+                            200: '#FEF08A',
+                            400: '#FACC15',
+                            500: '#EAB308',
+                            600: '#CA8A04',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            background-color: #F8FAFC;
+            color: #1E293B;
+        }
+        /* Minimum touch target size 44px for mobile usability */
+        button, a.btn-touch, input, select, textarea {
+            min-height: 44px;
+        }
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background: #2563EB;
+            border: 4px solid #FACC15;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #DBEAFE;
+            border-radius: 999px;
+        }
+        /* Responsivitas ekstra layar kecil (360px) sesuai temuan LK-4 & perbaikan LK-5 */
+        @media (max-width: 390px) {
+            .header-badge-text {
+                font-size: 10px;
+            }
+            .header-badge-pill {
+                padding: 5px 8px;
+            }
+        }
+        .tab-active {
+            background-color: #2563EB;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-gradient-to-b from-brand-50 via-white to-brand-50/60">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 z-50 hidden max-w-sm bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-xl border-l-4 border-sun-400 flex items-center gap-3 transition-all duration-300">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-sun-400 text-xl"></i>
+        <span id="toast-msg" class="text-sm font-medium leading-snug">Notifikasi</span>
+    </div>
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-brand-100 shadow-sm">
+        <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between gap-2">
+            <!-- Brand Logo & Identity -->
+            <div onclick="navigateTo('beranda')" class="flex items-center gap-2.5 sm:gap-3 cursor-pointer group min-w-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 flex items-center justify-center text-white shadow-md shadow-brand-200 relative overflow-hidden shrink-0">
+                    <i class="fa-solid fa-heart-pulse text-lg sm:text-xl"></i>
+                    <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-sun-400 rounded-full border-2 border-white"></span>
+                </div>
+                <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                        <h1 class="font-extrabold text-base sm:text-xl text-brand-900 tracking-tight leading-none truncate">Teman Cerita BK</h1>
+                        <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-sun-200 text-brand-900 shrink-0">v1.0 • SMUNEL</span>
+                    </div>
+                    <p class="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5 truncate">Bimbingan & Konseling • SMAN 5 Makassar</p>
+                </div>
+            </div>
+
+            <!-- Confidentiality Badge & Cloud Status -->
+            <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <div id="cloud-indicator" title="Status Penyimpanan Data" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-brand-50 text-brand-700 border border-brand-200">
+                    <span id="cloud-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span id="cloud-label">Mode Demo Lokal</span>
+                </div>
+                <div class="header-badge-pill flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-full bg-sun-100 border border-sun-400/60 text-brand-900 text-xs font-bold shadow-xs">
+                    <i class="fa-solid fa-shield-halved text-brand-600"></i>
+                    <span class="header-badge-text whitespace-nowrap">100% Rahasia</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile & Desktop Navigation Pills -->
+        <nav class="bg-brand-50/80 border-t border-brand-100 overflow-x-auto">
+            <div class="max-w-5xl mx-auto px-3 py-2 flex items-center gap-1.5 sm:justify-center min-w-max">
+                <button onclick="navigateTo('beranda')" id="nav-beranda" class="nav-btn tab-active px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Beranda
+                </button>
+                <button onclick="navigateTo('bilik')" id="nav-bilik" class="nav-btn text-slate-700 hover:bg-white px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-user-secret text-brand-600"></i> Bilik Rahasia
+                </button>
+                <button onclick="navigateTo('cek')" id="nav-cek" class="nav-btn text-slate-700 hover:bg-white px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-ticket text-brand-600"></i> Cek Balasan
+                </button>
+                <button onclick="navigateTo('konseling')" id="nav-konseling" class="nav-btn text-slate-700 hover:bg-white px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-emerald-600"></i> Konseling NISN
+                </button>
+                <button onclick="navigateTo('edukasi')" id="nav-edukasi" class="nav-btn text-slate-700 hover:bg-white px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-book-open-reader text-brand-600"></i> Edukasi Self-Help
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-6 sm:py-8">
+
+        <!-- ==================== 1. HALAMAN BERANDA ==================== -->
+        <section id="page-beranda" class="page-section fade-in space-y-6">
+            <!-- Hero Card -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-brand-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-48 h-48 bg-sun-200/40 rounded-full -mr-16 -mt-16 blur-2xl pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-56 h-56 bg-brand-100/60 rounded-full -ml-20 -mb-20 blur-2xl pointer-events-none"></div>
+                
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold mb-4">
+                        <span class="w-2 h-2 rounded-full bg-sun-400"></span>
+                        Layanan Digital BK • Fase E & F (Kelas X–XII)
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-brand-900 leading-tight mb-3">
+                        Ruang Aman Bercerita di Sela Jadwal <span class="text-brand-600 underline decoration-sun-400 decoration-4 underline-offset-4">Kelas Moving</span>
+                    </h2>
+                    <p class="text-slate-600 text-base leading-relaxed mb-6">
+                        Halo, Warga SMUNEL! Punya beban pikiran, masalah belajar, pertemanan, atau butuh teman diskusi tanpa takut dihakimi? Sampaikan ceritamu secara <strong>anonim</strong> maupun terjadwal bersama Guru BK SMAN 5 Makassar.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="navigateTo('bilik')" class="px-6 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-base shadow-lg shadow-brand-200 transition flex items-center justify-center gap-2.5">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Mulai Curhat Anonim
+                        </button>
+                        <button onclick="navigateTo('cek')" class="px-6 py-3.5 rounded-2xl bg-sun-400 hover:bg-sun-500 text-brand-950 font-bold text-base shadow-md shadow-sun-200/70 transition flex items-center justify-center gap-2.5">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Cek Balasan Tiket
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Quick Menu Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div onclick="navigateTo('bilik')" class="cursor-pointer bg-white hover:bg-brand-50/50 p-5 rounded-3xl border border-brand-100 shadow-xs transition group flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-user-secret"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-lg text-brand-900">Bilik Rahasia (Anonim)</h3>
+                            <span class="px-2 py-0.5 text-xs font-bold bg-sun-200 text-brand-900 rounded-lg">Tanpa Nama</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">Tulis curhatanmu tanpa login atau identitas. Dapatkan Kode Tiket Unik untuk membaca balasan Guru BK.</p>
+                    </div>
+                </div>
+
+                <div onclick="navigateTo('cek')" class="cursor-pointer bg-white hover:bg-brand-50/50 p-5 rounded-3xl border border-brand-100 shadow-xs transition group flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-sun-100 text-amber-700 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-ticket"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-brand-900">Cek Balasan & Evaluasi</h3>
+                        <p class="text-sm text-slate-600 mt-1">Masukkan kode <code class="text-brand-700 font-bold">#TC-SMUNEL-XXXX</code> untuk melihat respons BK dan isi skala rasa lega (0–100).</p>
+                    </div>
+                </div>
+
+                <div onclick="navigateTo('konseling')" class="cursor-pointer bg-white hover:bg-brand-50/50 p-5 rounded-3xl border border-brand-100 shadow-xs transition group flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-brand-900">Konseling Lanjutan (NISN)</h3>
+                        <p class="text-sm text-slate-600 mt-1">Butuh konseling tatap muka di Ruang BK SMUNEL? Atur jadwal dan terhubung langsung ke WhatsApp piket BK.</p>
+                    </div>
+                </div>
+
+                <div onclick="navigateTo('edukasi')" class="cursor-pointer bg-white hover:bg-brand-50/50 p-5 rounded-3xl border border-brand-100 shadow-xs transition group flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-brand-900">Edukasi Self-Help</h3>
+                        <p class="text-sm text-slate-600 mt-1">Infografis kesehatan mental remaja, video motivasi psikologi, dan kuis refleksi diri interaktif.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panduan Singkat Expressive Writing & Etika Digital -->
+            <div class="bg-gradient-to-r from-brand-700 to-brand-800 rounded-3xl p-6 sm:p-7 text-white shadow-md">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-full bg-sun-400 text-brand-950 text-xs font-extrabold uppercase tracking-wider mb-2">Panduan & Etika Komunikasi</span>
+                        <h3 class="text-xl font-bold">Tips Menulis Cerita (Expressive Writing)</h3>
+                    </div>
+                    <div class="text-xs bg-white/15 px-3.5 py-2 rounded-xl border border-white/20">
+                        <i class="fa-solid fa-lock text-sun-300 mr-1"></i> Dijaga kerahasiaannya sesuai Kode Etik BK
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                    <div class="bg-white/10 backdrop-blur-xs p-4 rounded-2xl border border-white/15">
+                        <p class="font-bold text-sun-300 mb-1">1. Ceritakan Apa Adanya</p>
+                        <p class="text-brand-50">Tulis peristiwa dan perasaan yang sedang kamu alami tanpa perlu merasa malu atau takut disalahkan.</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-xs p-4 rounded-2xl border border-white/15">
+                        <p class="font-bold text-sun-300 mb-1">2. Bahasa Santun & Jelas</p>
+                        <p class="text-brand-50">Gunakan bahasa yang sopan, hindari ujaran kebencian atau fitnah, agar Guru BK dapat memahamimu dengan tepat.</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-xs p-4 rounded-2xl border border-white/15">
+                        <p class="font-bold text-sun-300 mb-1">3. Simpan Kode Tiketmu</p>
+                        <p class="text-brand-50">Karena tanpa akun, kode tiket hanya muncul 1 kali setelah kirim. Wajib salin atau screenshot layarmu!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 2. BILIK RAHASIA (CURHAT ANONIM) ==================== -->
+        <section id="page-bilik" class="page-section hidden fade-in space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-brand-100">
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-brand-100">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-sun-200 text-brand-900 text-xs font-extrabold">100% Tanpa Identitas</span>
+                        <h2 class="text-2xl font-extrabold text-brand-900 mt-2">Bilik Rahasia — Curhat Anonim</h2>
+                        <p class="text-sm text-slate-600 mt-1">Tidak ada nama, NISN, atau email yang direkam. Kamu aman di sini.</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-2xl border border-brand-200">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                </div>
+
+                <!-- Expressive Writing Prompt Box -->
+                <div class="mt-5 p-4 rounded-2xl bg-brand-50 border border-brand-200 text-sm text-brand-900 flex items-start gap-3">
+                    <i class="fa-solid fa-feather-pointed text-brand-600 text-lg mt-0.5"></i>
+                    <div>
+                        <p class="font-bold">Panduan Singkat Expressive Writing:</p>
+                        <p class="text-slate-700 mt-0.5">Tarik napas sejenak. Tuliskan: <em>(1) Apa yang sedang terjadi? (2) Bagaimana perasaanmu saat ini? (3) Dukungan seperti apa yang kamu harapkan dari Guru BK?</em></p>
+                    </div>
+                </div>
+
+                <!-- Form Curhat -->
+                <form id="form-curhat" onsubmit="submitCurhat(event)" class="mt-6 space-y-5">
+                    <div>
+                        <label class="block text-sm font-bold text-brand-900 mb-2">Pilih Kategori Masalah <span class="text-red-500">*</span></label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="category-selector">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="kategori" value="Pribadi" class="peer sr-only" required checked>
+                                <div class="p-3 rounded-2xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center font-semibold text-sm text-slate-700 peer-checked:text-brand-800 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-heart text-rose-500"></i> Pribadi
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="kategori" value="Belajar" class="peer sr-only">
+                                <div class="p-3 rounded-2xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center font-semibold text-sm text-slate-700 peer-checked:text-brand-800 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-book text-brand-600"></i> Belajar
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="kategori" value="Bullying" class="peer sr-only">
+                                <div class="p-3 rounded-2xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center font-semibold text-sm text-slate-700 peer-checked:text-brand-800 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-hand-fist text-amber-600"></i> Bullying
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="kategori" value="Keluarga" class="peer sr-only">
+                                <div class="p-3 rounded-2xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center font-semibold text-sm text-slate-700 peer-checked:text-brand-800 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-house-chimney-user text-teal-600"></i> Keluarga
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="kategori" value="Karir" class="peer sr-only">
+                                <div class="p-3 rounded-2xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center font-semibold text-sm text-slate-700 peer-checked:text-brand-800 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-graduation-cap text-indigo-600"></i> Karir
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="kategori" value="Saran" class="peer sr-only">
+                                <div class="p-3 rounded-2xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center font-semibold text-sm text-slate-700 peer-checked:text-brand-800 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-comment-dots text-sky-600"></i> Saran
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="curhat-pesan" class="block text-sm font-bold text-brand-900 mb-2">Tuliskan Ceritamu di Sini <span class="text-red-500">*</span></label>
+                        <textarea id="curhat-pesan" rows="6" required minlength="15" placeholder="Assalamualaikum Bu/Pak Guru BK, akhir-akhir ini saya merasa..." class="w-full p-4 rounded-2xl border-2 border-brand-100 focus:border-brand-600 focus:outline-none text-base text-slate-800 bg-brand-50/30 placeholder:text-slate-400"></textarea>
+                        <div class="flex justify-between text-xs text-slate-500 mt-1.5">
+                            <span>Minimal 15 karakter. Jangan cantumkan nama asli jika ingin tetap anonim.</span>
+                            <span id="char-count">0 karakter</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-submit-curhat" class="w-full py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-base shadow-lg shadow-brand-200 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Kirim Cerita & Buat Kode Tiket
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- MODAL KONFIRMASI KODE TIKET UNIK -->
+        <div id="ticket-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border-4 border-sun-400 fade-in text-center space-y-5">
+                <div class="w-16 h-16 rounded-full bg-sun-100 text-amber-600 flex items-center justify-center text-3xl mx-auto shadow-inner">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <div>
+                    <span class="px-3 py-1 rounded-full bg-brand-100 text-brand-800 text-xs font-extrabold uppercase">Pesan Terkirim Aman!</span>
+                    <h3 class="text-xl font-extrabold text-brand-900 mt-2">Simpan Kode Tiket Unikmu</h3>
+                    <p class="text-sm text-slate-600 mt-1">Gunakan kode ini pada menu <strong>Cek Balasan</strong> untuk membaca respons dari Guru BK.</p>
+                </div>
+
+                <!-- Kode Tiket Box -->
+                <div class="bg-brand-50 border-2 border-dashed border-brand-500 rounded-2xl p-4">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Kode Tiket Rahasia</p>
+                    <div id="generated-ticket-code" class="text-2xl sm:text-3xl font-black text-brand-700 tracking-wider select-all">#TC-SMUNEL-0000</div>
+                </div>
+
+                <!-- Peringatan Kontras Kuning -->
+                <div class="bg-sun-100 border border-sun-400 rounded-2xl p-3.5 text-left flex items-start gap-2.5 text-xs text-brand-950">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-base mt-0.5"></i>
+                    <p><strong>PENTING!</strong> Karena sistem ini tanpa login, kode ini tidak dapat dipulihkan jika hilang. Segera salin, unduh bukti (.txt), atau <strong>Screenshot</strong> layar ini sebelum menutup!</p>
+                </div>
+
+                <div class="space-y-2.5 pt-1">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <button onclick="copyTicketCode()" id="btn-copy-ticket" class="w-full py-3.5 px-3 rounded-2xl bg-sun-400 hover:bg-sun-500 text-brand-950 font-extrabold text-sm shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-copy"></i>
+                            <span id="copy-btn-text">Salin Kode Tiket</span>
+                        </button>
+                        <button onclick="downloadTicketProof()" class="w-full py-3.5 px-3 rounded-2xl bg-brand-100 hover:bg-brand-200 text-brand-900 font-extrabold text-sm transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-file-arrow-down"></i>
+                            <span>Unduh Bukti (.txt)</span>
+                        </button>
+                    </div>
+                    <button onclick="goToCheckFromModal()" class="w-full py-3 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-ticket"></i> Lanjut ke Cek Balasan
+                    </button>
+                    <button onclick="closeTicketModal()" class="w-full py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition min-h-0">
+                        Saya Sudah Menyimpannya, Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 3. CEK BALASAN BK & SELF-ASSESSMENT ==================== -->
+        <section id="page-cek" class="page-section hidden fade-in space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-brand-100">
+                <h2 class="text-2xl font-extrabold text-brand-900">Cek Balasan BK & Evaluasi Mandiri</h2>
+                <p class="text-sm text-slate-600 mt-1">Masukkan Kode Tiket Unik yang kamu dapatkan saat mengirim curhatan anonim.</p>
+
+                <!-- Search Form -->
+                <form onsubmit="searchTicket(event)" class="mt-5 flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-4 flex items-center text-brand-600 font-bold">
+                            <i class="fa-solid fa-hashtag"></i>
+                        </span>
+                        <input type="text" id="input-ticket-search" placeholder="Contoh: #TC-SMUNEL-8A2F" required class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-brand-200 focus:border-brand-600 focus:outline-none font-bold uppercase text-brand-900 bg-brand-50/40">
+                    </div>
+                    <button type="submit" class="px-6 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-md transition flex items-center justify-center gap-2 shrink-0">
+                        <i class="fa-solid fa-magnifying-glass"></i> Cari Tiket
+                    </button>
+                </form>
+
+                <!-- Sample Demo Hint -->
+                <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                    <span>Uji coba cepat kode contoh:</span>
+                    <button type="button" onclick="fillSampleTicket('#TC-SMUNEL-89A2')" class="px-2.5 py-1 rounded-lg bg-sun-100 hover:bg-sun-200 text-brand-900 font-bold transition min-h-0">
+                        #TC-SMUNEL-89A2 (Terbalas)
+                    </button>
+                    <button type="button" onclick="fillSampleTicket('#TC-SMUNEL-9K4P')" class="px-2.5 py-1 rounded-lg bg-brand-50 hover:bg-brand-100 text-brand-800 font-bold transition min-h-0">
+                        #TC-SMUNEL-9K4P (Menunggu)
+                    </button>
+                </div>
+
+                <!-- Result Container -->
+                <div id="ticket-result-area" class="mt-6 hidden space-y-5 border-t border-brand-100 pt-6">
+                    <!-- Ticket Header -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 bg-brand-50 p-4 rounded-2xl border border-brand-100">
+                        <div>
+                            <span class="text-xs text-slate-500 block">Kode Tiket & Kategori</span>
+                            <span id="res-code" class="font-extrabold text-lg text-brand-800">#TC-SMUNEL-XXXX</span>
+                            <span id="res-category" class="ml-2 px-2.5 py-0.5 rounded-full text-xs font-bold bg-white text-brand-700 border border-brand-200">Kategori</span>
+                        </div>
+                        <span id="res-status-badge" class="px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-sun-200 text-brand-900">
+                            Menunggu Balasan
+                        </span>
+                    </div>
+
+                    <!-- Student Original Message -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
+                            <span class="font-bold text-slate-700"><i class="fa-solid fa-user-secret mr-1"></i> Cerita Kamu</span>
+                            <span id="res-date">-</span>
+                        </div>
+                        <p id="res-message" class="text-slate-800 whitespace-pre-line leading-relaxed"></p>
+                    </div>
+
+                    <!-- Counselor Reply -->
+                    <div id="res-reply-box" class="bg-gradient-to-br from-brand-50 to-white p-5 rounded-2xl border-2 border-brand-200 shadow-xs">
+                        <div class="flex items-center gap-2.5 mb-3">
+                            <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sm text-brand-900">Respons Guru BK (Saffi Triani, S.Pd.)</p>
+                                <p id="res-reply-date" class="text-xs text-slate-500">SMAN 5 Makassar</p>
+                            </div>
+                        </div>
+                        <p id="res-reply-text" class="text-slate-800 whitespace-pre-line leading-relaxed"></p>
+                    </div>
+
+                    <!-- Self-Assessment Widget (Skor 0 - 100) -->
+                    <div id="self-assessment-box" class="bg-sun-50/90 border-2 border-sun-400 rounded-3xl p-5 sm:p-6 space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-sun-400 text-brand-950 flex items-center justify-center text-lg shrink-0">
+                                <i class="fa-solid fa-face-smile-beam"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-brand-900 text-base">Evaluasi Mandiri (Self-Assessment)</h3>
+                                <p class="text-xs sm:text-sm text-slate-700 mt-0.5">Setelah menulis cerita dan membaca respons Guru BK, seberapa lega atau terbantu perasaanmu saat ini? (Skor 0 – 100)</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-2xl border border-sun-300 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-slate-500">0 (Masih Berat)</span>
+                                <span id="slider-score-display" class="px-4 py-1 rounded-full bg-brand-600 text-white font-extrabold text-lg">75</span>
+                                <span class="text-xs font-bold text-slate-500">100 (Sangat Lega)</span>
+                            </div>
+                            <input type="range" id="relief-slider" min="0" max="100" value="75" oninput="updateSliderLabel(this.value)" class="w-full">
+                            <p id="slider-mood-text" class="text-center text-xs font-bold text-brand-700">Perasaan mulai tenang dan terbantu</p>
+                        </div>
+
+                        <button type="button" onclick="saveSelfAssessment()" class="w-full py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-check-circle"></i> Simpan Skor Evaluasi Saya
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. KONSELING LANJUTAN (MODE NISN) & HALO BK ==================== -->
+        <section id="page-konseling" class="page-section hidden fade-in space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-brand-100">
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-brand-100">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">Terhubung Piket BK SMUNEL</span>
+                        <h2 class="text-2xl font-extrabold text-brand-900 mt-2">Konseling Lanjutan (Mode NISN) & Halo BK</h2>
+                        <p class="text-sm text-slate-600 mt-1">Jadwalkan sesi konseling tatap muka di Ruang BK SMAN 5 Makassar di sela jam pelajaran/kelas moving.</p>
+                        <p class="text-xs font-bold text-brand-700 mt-1.5"><i class="fa-regular fa-clock mr-1"></i> Jam Piket Layanan BK: Senin–Jumat (07.30 – 15.30 WITA) • Ruang BK SMAN 5 Makassar</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl border border-emerald-200">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                </div>
+
+                <form onsubmit="submitKonselingWA(event)" class="mt-6 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-brand-900 mb-1.5">NISN Siswa <span class="text-red-500">*</span></label>
+                            <input type="text" id="wa-nisn" inputmode="numeric" pattern="[0-9]{8,12}" placeholder="Contoh: 0081234567" required class="w-full px-4 py-3 rounded-2xl border-2 border-brand-100 focus:border-brand-600 focus:outline-none bg-brand-50/30">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-brand-900 mb-1.5">Nama Lengkap <span class="text-red-500">*</span></label>
+                            <input type="text" id="wa-nama" placeholder="Nama lengkap sesuai absen" required class="w-full px-4 py-3 rounded-2xl border-2 border-brand-100 focus:border-brand-600 focus:outline-none bg-brand-50/30">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-brand-900 mb-1.5">Kelas / Kelompok Moving <span class="text-red-500">*</span></label>
+                            <input type="text" id="wa-kelas" placeholder="Contoh: XI.F3 / Moving Biologi-2" required class="w-full px-4 py-3 rounded-2xl border-2 border-brand-100 focus:border-brand-600 focus:outline-none bg-brand-50/30">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-brand-900 mb-1.5">Nomor WhatsApp Siswa <span class="text-red-500">*</span></label>
+                            <input type="tel" id="wa-nomor-siswa" placeholder="Contoh: 081234567890" required class="w-full px-4 py-3 rounded-2xl border-2 border-brand-100 focus:border-brand-600 focus:outline-none bg-brand-50/30">
+                            <p class="text-xs text-slate-500 mt-1">Otomatis diformat ke kode negara 628...</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-brand-900 mb-1.5">Topik Konseling <span class="text-red-500">*</span></label>
+                            <select id="wa-topik" class="w-full px-4 py-3 rounded-2xl border-2 border-brand-100 focus:border-brand-600 focus:outline-none bg-brand-50/30 font-medium">
+                                <option value="Konseling Pribadi & Emosi">Konseling Pribadi & Emosi</option>
+                                <option value="Kesulitan Belajar & Kelas Moving">Kesulitan Belajar & Kelas Moving</option>
+                                <option value="Perencanaan Karir / SNBP-SNBT">Perencanaan Karir / SNBP-SNBT</option>
+                                <option value="Masalah Pertemanan / Bullying">Masalah Pertemanan / Bullying</option>
+                                <option value="Masalah Keluarga">Masalah Keluarga</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-brand-900 mb-1.5">Preferensi Waktu Tatap Muka <span class="text-red-500">*</span></label>
+                            <select id="wa-waktu" class="w-full px-4 py-3 rounded-2xl border-2 border-brand-100 focus:border-brand-600 focus:outline-none bg-brand-50/30 font-medium">
+                                <option value="Istirahat Pertama (09.45 - 10.15 WITA)">Istirahat Pertama (09.45 - 10.15 WITA)</option>
+                                <option value="Istirahat Kedua / Dzuhur (12.15 - 13.00 WITA)">Istirahat Kedua / Dzuhur (12.15 - 13.00 WITA)</option>
+                                <option value="Jam Kosong / Pergantian Kelas Moving">Jam Kosong / Pergantian Kelas Moving</option>
+                                <option value="Sepulang Sekolah (15.30 WITA)">Sepulang Sekolah (15.30 WITA)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-brand-900 mb-1.5">Catatan Singkat (Opsional)</label>
+                        <textarea id="wa-catatan" rows="2" placeholder="Tuliskan catatan singkat atau kode tiket anonim sebelumnya jika ada..." class="w-full p-3.5 rounded-2xl border-2 border-brand-100 focus:border-brand-600 focus:outline-none bg-brand-50/30"></textarea>
+                    </div>
+
+                    <div class="bg-sun-50 border border-sun-300 rounded-2xl p-3.5 text-xs text-brand-950 flex items-center gap-2.5">
+                        <i class="fa-solid fa-circle-info text-brand-600 text-base"></i>
+                        <span>Menekan tombol di bawah akan membuka aplikasi WhatsApp menuju nomor Piket BK SMAN 5 Makassar dengan format pesan terjadwal.</span>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base shadow-lg shadow-emerald-200 transition flex items-center justify-center gap-2.5">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        Kirim Ajuan Jadwal via WhatsApp BK
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==================== 5. EDUKASI SELF-HELP ==================== -->
+        <section id="page-edukasi" class="page-section hidden fade-in space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-brand-100">
+                <span class="px-3 py-1 rounded-full bg-sun-200 text-brand-900 text-xs font-extrabold">Pojok Literasi Kesehatan Mental</span>
+                <h2 class="text-2xl font-extrabold text-brand-900 mt-2">Edukasi Self-Help Remaja SMUNEL</h2>
+                <p class="text-sm text-slate-600 mt-1">Pelajari langkah praktis menjaga kesehatan mental, mengatasi tekanan belajar, dan berani bersuara.</p>
+
+                <!-- 3 Kartu Infografis Ringkas -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <!-- Infografis 1 -->
+                    <div class="rounded-3xl bg-gradient-to-b from-brand-50 to-white border border-brand-200 p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+                            <span class="text-xs font-extrabold text-brand-600 uppercase">Infografis #1</span>
+                            <h3 class="font-extrabold text-lg text-brand-900 mt-1">Manajemen Stres Akademik</h3>
+                            <ul class="mt-3 space-y-2 text-sm text-slate-700">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-600 mt-1"></i> Gunakan teknik napas <strong>4-7-8</strong> saat cemas menjelang ujian.</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-600 mt-1"></i> Pecah tugas besar menjadi target kecil 25 menit (Pomodoro).</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-600 mt-1"></i> Validasi perasaanmu: lelah itu wajar, istirahat bukan berarti malas.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-brand-100 text-xs font-bold text-brand-700">
+                            #MentalSehatSMUNEL
+                        </div>
+                    </div>
+
+                    <!-- Infografis 2 -->
+                    <div class="rounded-3xl bg-gradient-to-b from-sun-50 to-white border border-sun-300 p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-sun-400 text-brand-950 flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-shield-heart"></i>
+                            </div>
+                            <span class="text-xs font-extrabold text-amber-700 uppercase">Infografis #2</span>
+                            <h3 class="font-extrabold text-lg text-brand-900 mt-1">Stop Bullying & Berani Bicara</h3>
+                            <ul class="mt-3 space-y-2 text-sm text-slate-700">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-600 mt-1"></i> Perundungan verbal, fisik, maupun siber bukan salah korban.</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-600 mt-1"></i> Simpan bukti tangkapan layar (screenshot) jika terjadi cyberbullying.</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-amber-600 mt-1"></i> Laporkan segera melalui <strong>Bilik Rahasia</strong>; identitasmu terlindungi.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-sun-200 text-xs font-bold text-amber-800">
+                            #SMUNELAntiBullying
+                        </div>
+                    </div>
+
+                    <!-- Infografis 3 -->
+                    <div class="rounded-3xl bg-gradient-to-b from-sky-50 to-white border border-sky-200 p-5 flex flex-col justify-between shadow-xs">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-sky-600 text-white flex items-center justify-center text-xl mb-4">
+                                <i class="fa-solid fa-route"></i>
+                            </div>
+                            <span class="text-xs font-extrabold text-sky-700 uppercase">Infografis #3</span>
+                            <h3 class="font-extrabold text-lg text-brand-900 mt-1">Adaptasi Kelas Moving</h3>
+                            <ul class="mt-3 space-y-2 text-sm text-slate-700">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-600 mt-1"></i> Siapkan map khusus per mata pelajaran pilihan Fase F.</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-600 mt-1"></i> Bangun relasi positif dengan teman lintas kelas moving.</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-sky-600 mt-1"></i> Diskusikan minat jurusan kuliah bersama Guru BK sejak kelas XI.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-sky-100 text-xs font-bold text-sky-700">
+                            #SuksesFaseEF
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Edukasi YouTube & Kuis Refleksi -->
+                <div class="mt-8 grid grid-cols-1 lg:grid-cols-5 gap-6 items-center bg-brand-50/70 p-5 sm:p-6 rounded-3xl border border-brand-100">
+                    <div class="lg:col-span-3">
+                        <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-md bg-slate-900 border-2 border-white">
+                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/inpok4MKVLM" title="Video Edukasi Psikologi Remaja & Relaksasi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 space-y-4">
+                        <span class="px-3 py-1 rounded-full bg-brand-600 text-white text-xs font-bold">Video & Kuis Refleksi</span>
+                        <h3 class="text-xl font-extrabold text-brand-900">Kenali Kondisi Emosimu Hari Ini</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Tonton panduan relaksasi singkat di samping untuk meredakan ketegangan pikiran, lalu ikuti kuis refleksi diri interaktif atau buka kuis eksternal di Quizizz.
+                        </p>
+                        <button onclick="openReflectionQuiz()" class="w-full py-3.5 px-5 rounded-2xl bg-sun-400 hover:bg-sun-500 text-brand-950 font-extrabold text-sm shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-clipboard-question text-lg"></i>
+                            Mulai Kuis Refleksi Diri (1 Menit)
+                        </button>
+                        <a href="https://quizizz.com" target="_blank" rel="noopener noreferrer" class="btn-touch w-full py-3 px-4 rounded-2xl bg-brand-50 hover:bg-brand-100 text-brand-800 border border-brand-200 font-bold text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            Buka Portal Kuis Refleksi (Quizizz)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODAL KUIS REFLEKSI DIRI INTERAKTIF -->
+        <div id="quiz-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-brand-200 fade-in space-y-5 max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between border-b border-brand-100 pb-3">
+                    <h3 class="font-extrabold text-lg text-brand-900"><i class="fa-solid fa-sparkles text-sun-500 mr-1.5"></i> Kuis Refleksi Diri Cepat</h3>
+                    <button onclick="closeReflectionQuiz()" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 min-h-0">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="quiz-body" class="space-y-4 text-sm">
+                    <div>
+                        <p class="font-bold text-brand-900 mb-2">1. Bagaimana kualitas tidur & energimu 3 hari terakhir?</p>
+                        <select id="q1" class="w-full p-3 rounded-xl border border-brand-200 bg-brand-50/40">
+                            <option value="3">Cukup nyenyak dan berenergi di sekolah</option>
+                            <option value="2">Agak kurang tidur karena tugas/pikiran</option>
+                            <option value="1">Sangat lelah, sulit tidur, atau mudah cemas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <p class="font-bold text-brand-900 mb-2">2. Saat menghadapi masalah di kelas moving/pertemanan, apa yang biasanya kamu lakukan?</p>
+                        <select id="q2" class="w-full p-3 rounded-xl border border-brand-200 bg-brand-50/40">
+                            <option value="3">Bercerita ke orang tepercaya / mencari solusi</option>
+                            <option value="2">Diam saja sambil berharap masalah reda sendiri</option>
+                            <option value="1">Memendam sendirian hingga merasa sesak/tertekan</option>
+                        </select>
+                    </div>
+                    <button onclick="calculateQuizResult()" class="w-full py-3.5 rounded-2xl bg-brand-600 text-white font-bold">Lihat Hasil Refleksi</button>
+                    <div id="quiz-result" class="hidden p-4 rounded-2xl bg-sun-100 border border-sun-400 text-brand-950 font-medium"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== 6. DASHBOARD ADMIN GURU BK ==================== -->
+        <section id="page-admin" class="page-section hidden fade-in space-y-6">
+            <!-- Admin Header -->
+            <div class="bg-brand-900 text-white rounded-3xl p-6 sm:p-7 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-0.5 rounded-full bg-sun-400 text-brand-950 text-xs font-extrabold">Panel Guru BK</span>
+                        <span id="admin-db-badge" class="px-2.5 py-0.5 rounded-full bg-white/15 text-brand-100 text-xs font-semibold">Penyimpanan Lokal</span>
+                    </div>
+                    <h2 class="text-2xl font-extrabold mt-2">Dashboard Admin Teman Cerita BK</h2>
+                    <p class="text-sm text-brand-200 mt-0.5">Ibu Saffi Triani • SMAN 5 Makassar</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="openFirebaseModal()" class="px-4 py-2.5 rounded-xl bg-sun-400 hover:bg-sun-500 text-brand-950 font-bold text-xs sm:text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Pengaturan Cloud (Firebase)
+                    </button>
+                    <button onclick="logoutAdmin()" class="px-4 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs sm:text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Keluar Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistik Ringkas -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div class="bg-white p-4 sm:p-5 rounded-3xl border border-brand-100 shadow-xs">
+                    <span class="text-xs font-bold text-slate-500">Total Curhatan</span>
+                    <div id="stat-total" class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-1">0</div>
+                </div>
+                <div class="bg-white p-4 sm:p-5 rounded-3xl border border-sun-300 shadow-xs">
+                    <span class="text-xs font-bold text-amber-700">Belum Dibalas</span>
+                    <div id="stat-pending" class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1">0</div>
+                </div>
+                <div class="bg-white p-4 sm:p-5 rounded-3xl border border-emerald-200 shadow-xs">
+                    <span class="text-xs font-bold text-emerald-700">Sudah Dibalas</span>
+                    <div id="stat-replied" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">0</div>
+                </div>
+                <div class="bg-white p-4 sm:p-5 rounded-3xl border border-brand-200 shadow-xs">
+                    <span class="text-xs font-bold text-brand-700">Rata-rata Rasa Lega</span>
+                    <div class="flex items-baseline gap-1 mt-1">
+                        <span id="stat-relief" class="text-2xl sm:text-3xl font-extrabold text-brand-700">-</span>
+                        <span class="text-xs font-bold text-slate-400">/100</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Kategori & Daftar Tiket -->
+            <div class="bg-white rounded-3xl p-5 sm:p-7 border border-brand-100 shadow-sm space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <h3 class="font-extrabold text-lg text-brand-900">Daftar Kotak Masuk Bilik Rahasia</h3>
+                    <div class="flex flex-wrap items-center gap-2 pb-1">
+                        <select id="admin-filter-kategori" onchange="renderAdminTickets()" class="px-4 py-2.5 rounded-xl border-2 border-brand-200 bg-brand-50 text-brand-900 font-bold text-sm">
+                            <option value="Semua">Semua Kategori (6)</option>
+                            <option value="Pribadi">Pribadi</option>
+                            <option value="Belajar">Belajar</option>
+                            <option value="Bullying">Bullying</option>
+                            <option value="Keluarga">Keluarga</option>
+                            <option value="Karir">Karir</option>
+                            <option value="Saran">Saran</option>
+                        </select>
+                        <select id="admin-filter-status" onchange="renderAdminTickets()" class="px-4 py-2.5 rounded-xl border-2 border-brand-200 bg-white text-slate-700 font-bold text-sm">
+                            <option value="Semua">Semua Status</option>
+                            <option value="Menunggu Balasan">Belum Dibalas</option>
+                            <option value="Sudah Dibalas">Sudah Dibalas</option>
+                            <option value="Arsip/Spam">Arsip / Spam</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tickets List -->
+                <div id="admin-tickets-list" class="space-y-4">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-brand-100 mt-12">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col gap-4 text-sm text-slate-600">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-center sm:text-left">
+                    <p class="font-bold text-brand-900">© 2026 Teman Cerita BK — Layanan Bimbingan & Konseling SMAN 5 Makassar</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Dikembangkan oleh Saffi Triani • Program 10.000 Karya Digital Guru Sulawesi Selatan 2026</p>
+                </div>
+                <button onclick="openAdminLoginModal()" class="px-4 py-2.5 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-800 border border-brand-200 font-bold text-xs transition flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-lock"></i> Admin BK (PIN)
+                </button>
+            </div>
+            <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-400 text-center sm:text-left leading-relaxed">
+                Kredit Aset & Teknologi: Desain visual & infografis edukasi (Canva), ikon antarmuka (Font Awesome / Lucide SVG), tipografi Plus Jakarta Sans (Google Fonts), sematan media edukasi (YouTube Embed), kuis refleksi (Quizizz), serta hosting gratis & database cloud (GitHub Pages / Vercel & Firebase Firestore).
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL LOGIN PIN GURU BK -->
+    <div id="admin-login-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-brand-200 fade-in space-y-4 text-center">
+            <div class="w-14 h-14 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl mx-auto">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <div>
+                <h3 class="font-extrabold text-xl text-brand-900">Akses Admin Guru BK</h3>
+                <p class="text-xs text-slate-500 mt-1">Masukkan PIN khusus Guru BK SMAN 5 Makassar</p>
+            </div>
+            <form onsubmit="verifyAdminPin(event)" class="space-y-3">
+                <input type="password" id="admin-pin-input" inputmode="numeric" maxlength="6" placeholder="••••••" required class="w-full text-center tracking-[0.5em] text-2xl font-extrabold py-3 rounded-2xl border-2 border-brand-200 focus:border-brand-600 focus:outline-none">
+                <p class="text-xs bg-sun-100 text-brand-900 py-1.5 px-3 rounded-xl font-medium">
+                    PIN Uji Coba / Demo: <strong>123456</strong>
+                </p>
+                <div class="flex gap-2 pt-1">
+                    <button type="button" onclick="closeAdminLoginModal()" class="w-1/2 py-3 rounded-xl bg-slate-100 text-slate-700 font-bold text-sm">Batal</button>
+                    <button type="submit" class="w-1/2 py-3 rounded-xl bg-brand-600 text-white font-bold text-sm">Masuk</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PENGATURAN FIREBASE CLOUD (MULTI-PERANGKAT) -->
+    <div id="firebase-modal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-brand-200 fade-in space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-brand-100 pb-3">
+                <h3 class="font-extrabold text-lg text-brand-900"><i class="fa-solid fa-cloud text-brand-600 mr-1.5"></i> Koneksi Cloud Lintas Perangkat</h3>
+                <button onclick="closeFirebaseModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center min-h-0">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Agar curhatan dari HP siswa langsung terbaca di laptop Guru BK saat di-hosting di <strong>GitHub Pages / Vercel</strong>, tempelkan objek <code>firebaseConfig</code> JSON dari Firebase Console Anda di bawah ini. Jika dikosongkan, aplikasi otomatis berjalan dalam <strong>Mode Demo Lokal</strong>.
+            </p>
+            <textarea id="firebase-config-input" rows="6" placeholder='{"apiKey": "AIzaSy...", "authDomain": "...", "projectId": "...", "storageBucket": "...", "messagingSenderId": "...", "appId": "..."}' class="w-full p-3 rounded-2xl border-2 border-brand-200 font-mono text-xs bg-slate-50 focus:border-brand-600 focus:outline-none"></textarea>
+            <div class="flex flex-col sm:flex-row gap-2">
+                <button onclick="saveFirebaseConfig()" class="flex-1 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm">Simpan & Hubungkan Cloud</button>
+                <button onclick="resetFirebaseConfig()" class="py-3 px-4 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs">Reset ke Demo Lokal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK & Application Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, updateDoc, deleteDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // =========================================================================
+        // KONFIGURASI UTAMA (Bisa diisi langsung sebelum upload ke GitHub/Vercel)
+        // =========================================================================
+        const NOMOR_WA_PIKET_BK = "6281241005505"; // Nomor WA Piket BK SMAN 5 Makassar (Ganti sesuai nomor aktif)
+        const DEFAULT_ADMIN_PIN = "123456";
+        
+        // Opsional: Tempelkan objek firebaseConfig Anda di sini jika ingin permanen di file HTML
+        const HARDCODED_FIREBASE_CONFIG = null; 
+
+        // State Aplikasi
+        let ticketsData = [];
+        let isCloudActive = false;
+        let db = null;
+        let auth = null;
+        let currentUser = null;
+        let currentFoundTicketCode = null;
+        // Data Contoh Awal untuk Simulasi / Demo saat baru pertama dibuka (termasuk #TC-SMUNEL-89A2)
+        const SAMPLE_TICKETS = [
+            {
+                code: "#TC-SMUNEL-89A2",
+                kategori: "Belajar",
+                pesan: "Assalamualaikum Bu Saffi, saya siswa kelas XI Fase F. Akhir-akhir ini saya kewalahan mengatur waktu pindah ruangan saat kelas moving dan takut nilai mata pelajaran pilihan turun.",
+                status: "Sudah Dibalas",
+                balasan: "Waalaikumsalam Nak. Terima kasih sudah berani bercerita di Teman Cerita BK. Wajar sekali merasa butuh adaptasi di sistem kelas moving. Coba buat jadwal ringkas 5 menit sebelum bel pergantian jam untuk merapikan catatan, dan mari kita diskusikan strategi belajarmu di Ruang BK saat istirahat ya. Ibu bangga kamu peduli dengan progres belajarmu!",
+                reliefScore: 88,
+                createdAt: "25 Nov 2026, 10:15 WITA",
+                repliedAt: "25 Nov 2026, 13:20 WITA",
+                timestamp: 1764040500000
+            },
+            {
+                code: "#TC-SMUNEL-9K4P",
+                kategori: "Pribadi",
+                pesan: "Halo Bu, saya sering merasa kurang percaya diri saat presentasi di depan kelas baru karena belum terlalu akrab dengan teman-teman di kelompok moving.",
+                status: "Menunggu Balasan",
+                balasan: "",
+                reliefScore: null,
+                createdAt: "27 Nov 2026, 07:10 WITA",
+                repliedAt: "",
+                timestamp: 1764202200000
+            }
+        ];
+
+        // =========================================================================
+        // INISIALISASI PENYIMPANAN (FIREBASE CLOUD ATAU FALLBACK LOKAL)
+        // =========================================================================
+        async function initStorage() {
+            let configToUse = HARDCODED_FIREBASE_CONFIG;
+
+            // Cek jika ada konfigurasi dari environment atau dari pengaturan Admin
+            if (!configToUse && typeof __firebase_config !== 'undefined') {
+                try { configToUse = JSON.parse(__firebase_config); } catch (e) {}
+            }
+            if (!configToUse) {
+                const savedCfg = sessionStorage.getItem('tcbk_fb_config') || localStorage.getItem('tcbk_fb_config');
+                if (savedCfg) {
+                    try { configToUse = JSON.parse(savedCfg); } catch (e) {}
+                }
+            }
+
+            if (configToUse && configToUse.apiKey) {
+                try {
+                    const app = initializeApp(configToUse);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    currentUser = auth.currentUser;
+                    isCloudActive = true;
+                    updateCloudUI(true);
+
+                    // Real-time listener sesuai aturan path Firestore
+                    const ticketsCol = collection(db, 'artifacts', appId, 'public', 'data', 'tickets');
+                    onSnapshot(ticketsCol, (snapshot) => {
+                        const cloudItems = [];
+                        snapshot.forEach((docSnap) => {
+                            cloudItems.push(docSnap.data());
+                        });
+                        // Gabungkan sample demo jika database masih kosong agar tetap mudah diuji
+                        if (cloudItems.length === 0) {
+                            ticketsData = [...SAMPLE_TICKETS];
+                        } else {
+                            ticketsData = cloudItems.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                        }
+                        if (!document.getElementById('page-admin').classList.contains('hidden')) {
+                            renderAdminTickets();
+                        }
+                    }, (err) => {
+                        console.warn("Firestore listener fallback ke lokal:", err);
+                        fallbackToLocal();
+                    });
+                    return;
+                } catch (error) {
+                    console.warn("Gagal memuat Firebase, beralih ke mode demo lokal:", error);
+                }
+            }
+
+            fallbackToLocal();
+        }
+
+        function fallbackToLocal() {
+            isCloudActive = false;
+            updateCloudUI(false);
+            const saved = localStorage.getItem('tcbk_local_tickets');
+            if (saved) {
+                try {
+                    ticketsData = JSON.parse(saved);
+                } catch (e) {
+                    ticketsData = [...SAMPLE_TICKETS];
+                }
+            } else {
+                ticketsData = [...SAMPLE_TICKETS];
+                localStorage.setItem('tcbk_local_tickets', JSON.stringify(ticketsData));
+            }
+        }
+
+        function saveLocalData() {
+            if (!isCloudActive) {
+                localStorage.setItem('tcbk_local_tickets', JSON.stringify(ticketsData));
+            }
+        }
+
+        function updateCloudUI(active) {
+            const dot = document.getElementById('cloud-dot');
+            const label = document.getElementById('cloud-label');
+            const adminBadge = document.getElementById('admin-db-badge');
+            if (active) {
+                dot.className = "w-2 h-2 rounded-full bg-emerald-500";
+                label.textContent = "Cloud Aktif (Real-time)";
+                if (adminBadge) adminBadge.textContent = "Cloud Firebase Aktif";
+            } else {
+                dot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+                label.textContent = "Mode Demo Lokal";
+                if (adminBadge) adminBadge.textContent = "Mode Demo Lokal";
+            }
+        }
+
+        // =========================================================================
+        // NAVIGASI HALAMAN & TOAST NOTIFIKASI
+        // =========================================================================
+        window.navigateTo = function(pageId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
+            const target = document.getElementById('page-' + pageId);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-slate-700');
+            });
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) {
+                activeNav.classList.add('tab-active');
+                activeNav.classList.remove('text-slate-700');
+            }
+
+            if (pageId === 'admin') {
+                renderAdminTickets();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.showToast = function(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+            toastMsg.textContent = msg;
+            toastIcon.className = type === 'error' 
+                ? 'fa-solid fa-circle-exclamation text-rose-400 text-xl' 
+                : 'fa-solid fa-circle-check text-sun-400 text-xl';
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3500);
+        };
+
+        // Hitung karakter textarea curhat
+        document.getElementById('curhat-pesan').addEventListener('input', function() {
+            document.getElementById('char-count').textContent = `${this.value.length} karakter`;
+        });
+
+        // =========================================================================
+        // FITUR 2: BILIK RAHASIA & GENERATOR KODE TIKET (#TC-SMUNEL-XXXX)
+        // =========================================================================
+        function generateUniqueTicketCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let randomPart = '';
+            for (let i = 0; i < 4; i++) {
+                randomPart += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return `#TC-SMUNEL-${randomPart}`;
+        }
+
+        function getFormattedWITA() {
+            const now = new Date();
+            return now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + 
+                   ', ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA';
+        }
+
+        window.submitCurhat = async function(e) {
+            e.preventDefault();
+            const kategoriEl = document.querySelector('input[name="kategori"]:checked');
+            const pesanEl = document.getElementById('curhat-pesan');
+            const btn = document.getElementById('btn-submit-curhat');
+
+            const kategori = kategoriEl ? kategoriEl.value : 'Pribadi';
+            const pesan = pesanEl.value.trim();
+
+            if (pesan.length < 15) {
+                showToast("Cerita terlalu singkat, tuliskan minimal 15 karakter ya.", "error");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim Secara Rahasia...';
+
+            const newCode = generateUniqueTicketCode();
+            const newTicket = {
+                code: newCode,
+                kategori: kategori,
+                pesan: pesan,
+                status: "Menunggu Balasan",
+                balasan: "",
+                reliefScore: null,
+                createdAt: getFormattedWITA(),
+                repliedAt: "",
+                timestamp: Date.now()
+            };
+
+            try {
+                if (isCloudActive && db && currentUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'tickets', newCode.replace('#', ''));
+                    await setDoc(docRef, newTicket);
+                } else {
+                    ticketsData.unshift(newTicket);
+                    saveLocalData();
+                }
+
+                // Tampilkan modal kode tiket
+                document.getElementById('generated-ticket-code').textContent = newCode;
+                document.getElementById('copy-btn-text').textContent = 'Salin Kode Tiket';
+                document.getElementById('ticket-modal').classList.remove('hidden');
+
+                // Reset form
+                pesanEl.value = '';
+                document.getElementById('char-count').textContent = '0 karakter';
+            } catch (err) {
+                console.error(err);
+                showToast("Terjadi kendala saat mengirim pesan. Coba lagi.", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Kirim Cerita & Buat Kode Tiket';
+            }
+        };
+
+        window.copyTicketCode = function() {
+            const codeText = document.getElementById('generated-ticket-code').textContent;
+            const tempInput = document.createElement('input');
+            tempInput.value = codeText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            document.getElementById('copy-btn-text').textContent = 'Kode Tersalin!';
+            showToast(`Kode ${codeText} berhasil disalin! Simpan baik-baik.`);
+        };
+
+        window.downloadTicketProof = function() {
+            const codeText = document.getElementById('generated-ticket-code').textContent.trim();
+            const content = [
+                "====================================================",
+                "BUKTI KODE TIKET ANONIM - TEMAN CERITA BK v1.0",
+                "Layanan Bimbingan & Konseling SMAN 5 Makassar",
+                "====================================================",
+                `Kode Tiket Unik : ${codeText}`,
+                `Waktu Kirim     : ${getFormattedWITA()}`,
+                "Status Awal     : Menunggu Balasan Guru BK (maks. 2x24 jam)",
+                "",
+                "Petunjuk Cek Balasan:",
+                "1. Buka menu 'Cek Balasan' pada website Teman Cerita BK.",
+                "2. Masukkan kode tiket di atas untuk membaca solusi Guru BK.",
+                "3. Isi skor evaluasi mandiri (0-100) setelah membaca balasan.",
+                "===================================================="
+            ].join("\n");
+
+            const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `Bukti-Tiket-${codeText.replace(/[^a-zA-Z0-9-]/g, '')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(`File bukti tiket ${codeText} berhasil diunduh.`);
+        };
+
+        window.goToCheckFromModal = function() {
+            const codeText = document.getElementById('generated-ticket-code').textContent.trim();
+            closeTicketModal();
+            navigateTo('cek');
+            fillSampleTicket(codeText);
+        };
+
+        window.closeTicketModal = function() {
+            document.getElementById('ticket-modal').classList.add('hidden');
+        };
+
+        // =========================================================================
+        // FITUR 3: CEK BALASAN BK & SELF-ASSESSMENT (0 - 100)
+        // =========================================================================
+        window.fillSampleTicket = function(code) {
+            document.getElementById('input-ticket-search').value = code;
+            searchTicket(new Event('submit'));
+        };
+
+        window.searchTicket = function(e) {
+            e.preventDefault();
+            let rawInput = document.getElementById('input-ticket-search').value.trim().toUpperCase();
+            if (!rawInput.startsWith('#')) {
+                rawInput = '#' + rawInput;
+            }
+
+            const found = ticketsData.find(t => t.code.toUpperCase() === rawInput);
+            const resultArea = document.getElementById('ticket-result-area');
+
+            if (!found) {
+                resultArea.classList.add('hidden');
+                showToast("Kode tiket tidak ditemukan. Periksa kembali huruf & angkanya.", "error");
+                return;
+            }
+
+            currentFoundTicketCode = found.code;
+            resultArea.classList.remove('hidden');
+
+            document.getElementById('res-code').textContent = found.code;
+            document.getElementById('res-category').textContent = found.kategori;
+            document.getElementById('res-date').textContent = found.createdAt;
+            document.getElementById('res-message').textContent = found.pesan;
+
+            const badge = document.getElementById('res-status-badge');
+            const replyText = document.getElementById('res-reply-text');
+            const replyDate = document.getElementById('res-reply-date');
+
+            if (found.status === 'Sudah Dibalas' && found.balasan) {
+                badge.textContent = 'Sudah Dibalas Guru BK';
+                badge.className = 'px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800';
+                replyText.textContent = found.balasan;
+                replyDate.textContent = `Dibalas pada ${found.repliedAt || 'Hari ini'}`;
+            } else {
+                badge.textContent = 'Menunggu Balasan BK';
+                badge.className = 'px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-sun-200 text-brand-900';
+                replyText.textContent = 'Pesanmu sudah diterima dengan aman oleh Guru BK SMAN 5 Makassar dan sedang dalam antrean untuk dibalas. Silakan cek kembali secara berkala dengan kode tiketmu.';
+                replyDate.textContent = 'Dalam peninjauan Guru BK';
+            }
+
+            // Set slider evaluasi mandiri
+            const initialScore = found.reliefScore !== null && found.reliefScore !== undefined ? found.reliefScore : 75;
+            document.getElementById('relief-slider').value = initialScore;
+            updateSliderLabel(initialScore);
+        };
+
+        window.updateSliderLabel = function(val) {
+            const score = parseInt(val, 10);
+            document.getElementById('slider-score-display').textContent = score;
+            const moodText = document.getElementById('slider-mood-text');
+            if (score < 35) {
+                moodText.textContent = "Masih terasa berat — jangan ragu ajukan Konseling Tatap Muka NISN ya.";
+            } else if (score < 70) {
+                moodText.textContent = "Cukup lega setelah bercerita, perlahan mulai menemukan titik terang.";
+            } else {
+                moodText.textContent = "Sangat lega dan merasa didukung! Tetap semangat warga SMUNEL.";
+            }
+        };
+
+        window.saveSelfAssessment = async function() {
+            if (!currentFoundTicketCode) return;
+            const score = parseInt(document.getElementById('relief-slider').value, 10);
+
+            const idx = ticketsData.findIndex(t => t.code === currentFoundTicketCode);
+            if (idx !== -1) {
+                ticketsData[idx].reliefScore = score;
+                if (isCloudActive && db && currentUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'tickets', currentFoundTicketCode.replace('#', ''));
+                    await updateDoc(docRef, { reliefScore: score });
+                } else {
+                    saveLocalData();
+                }
+                showToast(`Terima kasih! Skor evaluasi mandiri (${score}/100) berhasil disimpan.`);
+            }
+        };
+
+        // =========================================================================
+        // FITUR 4: KONSELING LANJUTAN (MODE NISN) & WHATSAPP API
+        // =========================================================================
+        window.submitKonselingWA = function(e) {
+            e.preventDefault();
+            const nisn = document.getElementById('wa-nisn').value.trim();
+            const nama = document.getElementById('wa-nama').value.trim();
+            const kelas = document.getElementById('wa-kelas').value.trim();
+            let nomorSiswa = document.getElementById('wa-nomor-siswa').value.replace(/\D/g, '');
+            const topik = document.getElementById('wa-topik').value;
+            const waktu = document.getElementById('wa-waktu').value;
+            const catatan = document.getElementById('wa-catatan').value.trim();
+
+            // Pembersihan otomatis nomor WA awalan 08 menjadi 628 sesuai catatan LK-3
+            if (nomorSiswa.startsWith('0')) {
+                nomorSiswa = '62' + nomorSiswa.substring(1);
+            } else if (!nomorSiswa.startsWith('62')) {
+                nomorSiswa = '62' + nomorSiswa;
+            }
+
+            const pesanWA = `Assalamualaikum Bu/Pak Guru BK SMAN 5 Makassar.%0A` +
+                `Saya ingin mengajukan *Jadwal Konseling Tatap Muka* melalui Teman Cerita BK:%0A%0A` +
+                `• *NISN:* ${encodeURIComponent(nisn)}%0A` +
+                `• *Nama:* ${encodeURIComponent(nama)}%0A` +
+                `• *Kelas/Moving:* ${encodeURIComponent(kelas)}%0A` +
+                `• *No. WA:* +${nomorSiswa}%0A` +
+                `• *Topik:* ${encodeURIComponent(topik)}%0A` +
+                `• *Usulan Waktu:* ${encodeURIComponent(waktu)}%0A` +
+                (catatan ? `• *Catatan:* ${encodeURIComponent(catatan)}%0A` : '') +
+                `%0ATerima kasih sebelumnya.`;
+
+            const waUrl = `https://wa.me/${NOMOR_WA_PIKET_BK}?text=${pesanWA}`;
+            showToast("Mengarahkan ke WhatsApp Piket BK SMUNEL...");
+            window.open(waUrl, '_blank');
+        };
+
+        // =========================================================================
+        // FITUR 5: KUIS REFLEKSI DIRI
+        // =========================================================================
+        window.openReflectionQuiz = function() {
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-modal').classList.remove('hidden');
+        };
+        window.closeReflectionQuiz = function() {
+            document.getElementById('quiz-modal').classList.add('hidden');
+        };
+        window.calculateQuizResult = function() {
+            const total = parseInt(document.getElementById('q1').value) + parseInt(document.getElementById('q2').value);
+            const resBox = document.getElementById('quiz-result');
+            resBox.classList.remove('hidden');
+            if (total >= 5) {
+                resBox.innerHTML = "<strong>Kondisi Emosi Stabil (Skor Baik):</strong> Kamu memiliki strategi koping yang sehat! Pertahankan rutinitas positifmu dan tetap saling mendukung teman di SMUNEL.";
+            } else if (total >= 3) {
+                resBox.innerHTML = "<strong>Butuh Ruang Jeda (Skor Sedang):</strong> Kamu mulai menyimpan beban pikiran. Coba luangkan waktu istirahat dan ceritakan hal yang mengganjal di <em>Bilik Rahasia</em>.";
+            } else {
+                resBox.innerHTML = "<strong>Perlu Dukungan Segera:</strong> Jangan memikul semuanya sendirian ya. Guru BK SMAN 5 Makassar siap mendengarkan tanpa menghakimi melalui <em>Bilik Rahasia</em> atau <em>Konseling NISN</em>.";
+            }
+        };
+
+        // =========================================================================
+        // FITUR 6: DASHBOARD ADMIN GURU BK (PROTEKSI PIN & CLOUD CONFIG)
+        // =========================================================================
+        window.openAdminLoginModal = function() {
+            document.getElementById('admin-pin-input').value = '';
+            document.getElementById('admin-login-modal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('admin-pin-input').focus(), 100);
+        };
+
+        window.closeAdminLoginModal = function() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+        };
+
+        window.verifyAdminPin = function(e) {
+            e.preventDefault();
+            const pin = document.getElementById('admin-pin-input').value.trim();
+            if (pin === DEFAULT_ADMIN_PIN) {
+                closeAdminLoginModal();
+                navigateTo('admin');
+                showToast("Selamat datang kembali, Ibu Saffi Triani!");
+            } else {
+                showToast("PIN salah! Gunakan PIN default 123456 untuk uji coba.", "error");
+            }
+        };
+
+        window.logoutAdmin = function() {
+            navigateTo('beranda');
+            showToast("Anda telah keluar dari mode Admin Guru BK.");
+        };
+
+        window.renderAdminTickets = function() {
+            const filterKat = document.getElementById('admin-filter-kategori').value;
+            const filterStat = document.getElementById('admin-filter-status').value;
+
+            // Hitung Statistik (tidak menghitung tiket yang diarsipkan/spam ke antrean aktif)
+            const activeTickets = ticketsData.filter(t => t.status !== 'Arsip/Spam');
+            const total = activeTickets.length;
+            const pending = activeTickets.filter(t => t.status !== 'Sudah Dibalas').length;
+            const replied = activeTickets.filter(t => t.status === 'Sudah Dibalas').length;
+            const scoredItems = activeTickets.filter(t => typeof t.reliefScore === 'number');
+            const avgRelief = scoredItems.length > 0 
+                ? Math.round(scoredItems.reduce((acc, cur) => acc + cur.reliefScore, 0) / scoredItems.length) 
+                : '-';
+
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-pending').textContent = pending;
+            document.getElementById('stat-replied').textContent = replied;
+            document.getElementById('stat-relief').textContent = avgRelief;
+
+            // Filter data
+            const filtered = ticketsData.filter(t => {
+                const matchKat = filterKat === 'Semua' || t.kategori === filterKat;
+                const matchStat = filterStat === 'Semua'
+                    ? (t.status !== 'Arsip/Spam')
+                    : (t.status === filterStat);
+                return matchKat && matchStat;
+            });
+
+            const container = document.getElementById('admin-tickets-list');
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-10 text-slate-500 bg-brand-50/50 rounded-2xl border border-dashed border-brand-200">Tidak ada tiket curhatan pada filter ini.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(ticket => {
+                const isDone = ticket.status === 'Sudah Dibalas';
+                const isArchived = ticket.status === 'Arsip/Spam';
+                const safeId = ticket.code.replace(/[^a-zA-Z0-9]/g, '');
+                return `
+                <div class="p-5 rounded-3xl border-2 ${isArchived ? 'border-slate-200 bg-slate-50/70 opacity-85' : (isDone ? 'border-brand-100 bg-white' : 'border-sun-400 bg-sun-50/30')} space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-extrabold text-brand-800 bg-brand-100 px-3 py-1 rounded-xl text-sm">${ticket.code}</span>
+                            <span class="px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 text-slate-700">${ticket.kategori}</span>
+                            <span class="text-xs text-slate-500">${ticket.createdAt}</span>
+                        </div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            ${typeof ticket.reliefScore === 'number' ? `<span class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-800 text-xs font-bold">Skor Lega: ${ticket.reliefScore}/100</span>` : ''}
+                            <span class="px-3 py-1 rounded-full text-xs font-extrabold ${isArchived ? 'bg-slate-200 text-slate-700' : (isDone ? 'bg-emerald-100 text-emerald-800' : 'bg-sun-300 text-brand-950')}">
+                                ${ticket.status}
+                            </span>
+                            <button onclick="archiveTicket('${ticket.code}')" title="${isArchived ? 'Pulihkan ke Kotak Masuk' : 'Arsipkan / Tandai Spam'}" class="px-3 py-2 rounded-xl ${isArchived ? 'bg-brand-50 hover:bg-brand-100 text-brand-700' : 'bg-amber-50 hover:bg-amber-100 text-amber-800'} font-bold text-xs flex items-center gap-1.5 min-h-0">
+                                <i class="fa-solid ${isArchived ? 'fa-rotate-left' : 'fa-box-archive'}"></i>
+                                <span>${isArchived ? 'Pulihkan' : 'Arsip / Spam'}</span>
+                            </button>
+                            <button onclick="deleteTicket('${ticket.code}')" title="Hapus Permanen" class="w-9 h-9 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 flex items-center justify-center min-h-0">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl text-sm text-slate-800 whitespace-pre-line border border-slate-200">${escapeHtml(ticket.pesan)}</div>
+
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-brand-900">Balasan Guru BK untuk Siswa:</label>
+                        <textarea id="reply-input-${safeId}" rows="3" placeholder="Tuliskan respons empatik dan solutif untuk siswa..." class="w-full p-3.5 rounded-2xl border-2 border-brand-200 focus:border-brand-600 focus:outline-none text-sm bg-white">${escapeHtml(ticket.balasan || '')}</textarea>
+                        <div class="flex justify-end">
+                            <button onclick="sendAdminReply('${ticket.code}', '${safeId}')" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-xs transition flex items-center gap-2">
+                                <i class="fa-solid fa-reply"></i> ${isDone ? 'Perbarui Balasan' : 'Kirim Balasan ke Siswa'}
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        };
+
+        window.archiveTicket = async function(ticketCode) {
+            const idx = ticketsData.findIndex(t => t.code === ticketCode);
+            if (idx === -1) return;
+            const nextStatus = ticketsData[idx].status === 'Arsip/Spam' ? (ticketsData[idx].balasan ? 'Sudah Dibalas' : 'Menunggu Balasan') : 'Arsip/Spam';
+            ticketsData[idx].status = nextStatus;
+
+            if (isCloudActive && db && currentUser) {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'tickets', ticketCode.replace('#', ''));
+                await updateDoc(docRef, { status: nextStatus });
+            } else {
+                saveLocalData();
+            }
+            renderAdminTickets();
+            showToast(`Status tiket ${ticketCode} diubah menjadi "${nextStatus}".`);
+        };
+
+        window.sendAdminReply = async function(ticketCode, safeId) {
+            const replyVal = document.getElementById(`reply-input-${safeId}`).value.trim();
+            if (!replyVal) {
+                showToast("Kolom balasan tidak boleh kosong.", "error");
+                return;
+            }
+
+            const idx = ticketsData.findIndex(t => t.code === ticketCode);
+            if (idx !== -1) {
+                const repliedAt = getFormattedWITA();
+                ticketsData[idx].balasan = replyVal;
+                ticketsData[idx].status = 'Sudah Dibalas';
+                ticketsData[idx].repliedAt = repliedAt;
+
+                if (isCloudActive && db && currentUser) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'tickets', ticketCode.replace('#', ''));
+                    await setDoc(docRef, ticketsData[idx], { merge: true });
+                } else {
+                    saveLocalData();
+                }
+
+                renderAdminTickets();
+                showToast(`Balasan untuk tiket ${ticketCode} berhasil dikirim!`);
+            }
+        };
+
+        window.deleteTicket = async function(ticketCode) {
+            ticketsData = ticketsData.filter(t => t.code !== ticketCode);
+            if (isCloudActive && db && currentUser) {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'tickets', ticketCode.replace('#', ''));
+                await deleteDoc(docRef);
+            } else {
+                saveLocalData();
+            }
+            renderAdminTickets();
+            showToast(`Tiket ${ticketCode} berhasil diarsipkan/dihapus.`);
+        };
+
+        // Pengaturan Firebase Config dari Dashboard Admin
+        window.openFirebaseModal = function() {
+            const existing = localStorage.getItem('tcbk_fb_config') || '';
+            document.getElementById('firebase-config-input').value = existing;
+            document.getElementById('firebase-modal').classList.remove('hidden');
+        };
+        window.closeFirebaseModal = function() {
+            document.getElementById('firebase-modal').classList.add('hidden');
+        };
+        window.saveFirebaseConfig = async function() {
+            const raw = document.getElementById('firebase-config-input').value.trim();
+            try {
+                const parsed = JSON.parse(raw);
+                if (!parsed.apiKey || !parsed.projectId) throw new Error("Invalid");
+                localStorage.setItem('tcbk_fb_config', JSON.stringify(parsed));
+                closeFirebaseModal();
+                showToast("Konfigurasi Firebase disimpan! Menghubungkan ke Cloud...");
+                await initStorage();
+            } catch (e) {
+                showToast("Format JSON Firebase Config tidak valid.", "error");
+            }
+        };
+        window.resetFirebaseConfig = function() {
+            localStorage.removeItem('tcbk_fb_config');
+            closeFirebaseModal();
+            fallbackToLocal();
+            renderAdminTickets();
+            showToast("Kembali ke Mode Demo Lokal.");
+        };
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        // Jalankan saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            initStorage();
+        });
+    </script>
+</body>
+</html>
